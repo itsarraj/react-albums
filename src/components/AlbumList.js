@@ -16,9 +16,7 @@ const AlbumList = (props) => {
                             <Link to="/update-album">
                                 <button
                                     className="update-btn"
-                                    onClick={() =>
-                                        props.setUpdateAlbum(props.album)
-                                    }
+                                    onClick={() => props.setUpdateAlbum(album)}
                                 >
                                     Update
                                 </button>
@@ -26,7 +24,7 @@ const AlbumList = (props) => {
                             <button
                                 className="delete-btn"
                                 onClick={() =>
-                                    props.deleteAlbumFromList(props.album.id)
+                                    props.handleDeleteAlbum(album.id)
                                 }
                             >
                                 Delete

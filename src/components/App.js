@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 // import { AlbumList, AddAlbum, UpdateAlbum, Navbar } from './index';
-import { AlbumList, AddAlbum } from './index';
+import { AlbumList, AddAlbum, UpdateAlbum } from './index';
+import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
     const [albums, setAlbums] = useState([]);
+    const [updateAlbum, setUpdateAlbum] = useState({});
 
     const handleFetchAlbums = async () => {
         try {
@@ -77,11 +79,14 @@ function App() {
             const response = await fetch(
                 `https://jsonplaceholder.typicode.com/albums/${albumId}`,
                 {
-                    method: 'DELETE ',
+                    method: 'DELETE',
                 }
             );
-            const newAlbum = response.json();
-            setAlbums(newAlbum);
+            console.log('response', response);
+            const newAlbums = albums.filter((album) => album.id !== albumId);
+
+            setAlbums([...newAlbums]);
+            toast.success('Album deleted successfully');
         } catch (error) {
             console.error('Error deleting album:', error);
         }
@@ -96,8 +101,9 @@ function App() {
                         <AlbumList
                             albums={albums}
                             setAlbums={setAlbums}
+                            setUpdateAlbum={setUpdateAlbum}
                             handleFetchAlbums={handleFetchAlbums}
-                            // handleDeleteAlbum={handleDeleteAlbum}
+                            handleDeleteAlbum={handleDeleteAlbum}
                         />
                     }
                 ></Route>
@@ -112,17 +118,18 @@ function App() {
                         />
                     }
                 ></Route>
-                {/*
+
                 <Route
                     path="/update-album"
                     element={
                         <UpdateAlbum
                             albums={albums}
                             setAlbums={setAlbums}
+                            setUpdateAlbum={setUpdateAlbum}
                             handleUpdateAlbum={handleUpdateAlbum}
                         />
                     }
-                ></Route> */}
+                ></Route>
             </Routes>
         </div>
     );
