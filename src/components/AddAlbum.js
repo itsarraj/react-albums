@@ -3,7 +3,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Navbar } from './index';
 import toast, { Toaster } from 'react-hot-toast';
 
-const AlbumList = (props) => {
+const AddAlbum = (props) => {
     const navigate = useNavigate();
 
     const [title, setTitle] = useState('');
@@ -70,4 +70,4 @@ const AlbumList = (props) => {
     );
 };
 
-export default AlbumList;
+export default AddAlbum;

@@ -1,66 +1,81 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Navbar } from './index';
 import toast, { Toaster } from 'react-hot-toast';
 
 const UpdateAlbum = (props) => {
-    // const [title, setTitle] = useState('');
-    // const [userId, setUserId] = useState('');
-    // const [addingAlbum, setAddingAlbum] = useState('');
-    // const handleFormSubmit = async (e) => {
-    //     e.preventDefault();
-    //     setAddingAlbum(true);
-    //     let error = false;
-    //     if (!title || !userId) {
-    //         toast.error('Please fill all the fields');
-    //         error = true;
-    //     }
-    //     if (error) {
-    //         return setAddingAlbum(false);
-    //     }
-    //     const addedornot = await props.handleAddAlbum({ title, userId });
-    //     console.log('addedornot', addedornot.status);
-    //     if (addedornot.status === 201) {
-    //         return toast.success('Album added successfully');
-    //     } else {
-    //         toast.error('Album not added');
-    //     }
-    //     setAddingAlbum(false);
-    // };
-    // return (
-    //     <>
-    //         {/* Navbar */}
-    //         <Navbar />
-    //         <div className="updatealbum-container">
-    //             <div className="updatealbum-form">
-    //                 <h2>Update Album</h2>
-    //                 <form onSubmit={handleFormSubmit}>
-    //                     <label htmlFor="title">Enter New Title</label>
-    //                     <input
-    //                         type="text"
-    //                         name="title"
-    //                         id="title"
-    //                         value={title}
-    //                         onChange={(e) => setTitle(e.target.value)}
-    //                     />
-    //                     <label htmlFor="userId">Enter New User ID</label>
-    //                     <input
-    //                         type="number"
-    //                         name="userId"
-    //                         id="userId"
-    //                         value={userId}
-    //                         onChange={(e) => setUserId(e.target.value)}
-    //                     />
-    //                     {/* <Link to="/"> */}
-    //                     <button disabled={addingAlbum} type="submit">
-    //                         {addingAlbum ? 'Adding Album...' : 'Add Album'}
-    //                     </button>
-    //                     {/* </Link> */}
-    //                 </form>
-    //             </div>
-    //         </div>
-    //     </>
-    // );
+    const navigate = useNavigate();
+    const {} = props.updateAlbum;
+    const [title, setTitle] = useState(props.updateAlbum.title);
+    const [userId, setUserId] = useState(props.updateAlbum.userId);
+    const [updatingAlbum, setUpdatingAlbum] = useState('');
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        setUpdatingAlbum(true);
+        let error = false;
+
+        if (!title || !userId) {
+            toast.error('Please fill all the fields');
+            error = true;
+        }
+
+        if (error) {
+            return setUpdatingAlbum(false);
+        }
+        const updatedornot = await props.handleUpdateAlbum(
+            props.updateAlbum.id,
+            {
+                title,
+                userId,
+            },
+            props.updateAlbum
+        );
+        console.log('updatedornot', updatedornot.status);
+        if (updatedornot.status === 200) {
+            toast.success('Album updated successfully');
+            return navigate('/');
+        } else {
+            toast.error('Album not updated');
+        }
+        setUpdatingAlbum(false);
+    };
+    return (
+        <>
+            {/* Navbar */}
+            <Navbar />
+
+            <div className="updatealbum-container">
+                <div className="updatealbum-form">
+                    <h2>updat Album</h2>
+                    <form onSubmit={handleFormSubmit}>
+                        <label htmlFor="title">Enter Updated Title</label>
+                        <input
+                            type="text"
+                            name="title"
+                            id="title"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                        <label htmlFor="userId">Enter Updated User ID</label>
+                        <input
+                            type="number"
+                            name="userId"
+                            id="userId"
+                            value={userId}
+                            onChange={(e) => setUserId(e.target.value)}
+                        />
+
+                        <button disabled={updatingAlbum} type="submit">
+                            {updatingAlbum
+                                ? 'Updating Album...'
+                                : 'Update Album'}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </>
+    );
 };
 
 export default UpdateAlbum;

@@ -28,7 +28,7 @@ function App() {
         console.log('x', 2);
     }, []);
 
-    const handleUpdateAlbum = async (albumId, updatedData) => {
+    const handleUpdateAlbum = async (albumId, updatedData, updateAlbumData) => {
         try {
             const response = await fetch(
                 `https://jsonplaceholder.typicode.com/albums/${albumId}`,
@@ -40,8 +40,24 @@ function App() {
                     },
                 }
             );
-            const updatedAlbum = await response.json();
-            setAlbums(updatedAlbum);
+            const { title, userId } = updatedData;
+
+            const newAlbum = {
+                title,
+                userId,
+                id: albumId,
+            };
+
+            /**
+             * Both the ways are correct
+             */
+
+            // albums[albums.findIndex((album) => album.id === albumId)] =
+            //     newAlbum;
+            albums[albums.indexOf(updateAlbumData)] = newAlbum;
+
+            setAlbums(albums);
+            return response;
         } catch (error) {
             console.error('Error updating album:', error);
         }
@@ -86,6 +102,7 @@ function App() {
             const newAlbums = albums.filter((album) => album.id !== albumId);
 
             setAlbums([...newAlbums]);
+
             toast.success('Album deleted successfully');
         } catch (error) {
             console.error('Error deleting album:', error);
@@ -125,7 +142,7 @@ function App() {
                         <UpdateAlbum
                             albums={albums}
                             setAlbums={setAlbums}
-                            setUpdateAlbum={setUpdateAlbum}
+                            updateAlbum={updateAlbum}
                             handleUpdateAlbum={handleUpdateAlbum}
                         />
                     }
