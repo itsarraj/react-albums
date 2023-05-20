@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Navbar } from './index';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 const UpdateAlbum = (props) => {
     const navigate = useNavigate();
-    const {} = props.updateAlbum;
     const [title, setTitle] = useState(props.updateAlbum.title);
     const [userId, setUserId] = useState(props.updateAlbum.userId);
     const [updatingAlbum, setUpdatingAlbum] = useState('');

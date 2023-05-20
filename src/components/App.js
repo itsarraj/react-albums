@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 // import { AlbumList, AddAlbum, UpdateAlbum, Navbar } from './index';
 import { AlbumList, AddAlbum, UpdateAlbum } from './index';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 function App() {
     const [albums, setAlbums] = useState([]);
