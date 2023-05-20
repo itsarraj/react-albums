@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Navbar } from './index';
 import toast, { Toaster } from 'react-hot-toast';
 
 const AlbumList = (props) => {
+    const navigate = useNavigate();
+
     const [title, setTitle] = useState('');
     const [userId, setUserId] = useState('');
     const [addingAlbum, setAddingAlbum] = useState('');
@@ -25,7 +27,8 @@ const AlbumList = (props) => {
         const addedornot = await props.handleAddAlbum({ title, userId });
         console.log('addedornot', addedornot.status);
         if (addedornot.status === 201) {
-            return toast.success('Album added successfully');
+            toast.success('Album added successfully');
+            return navigate('/');
         } else {
             toast.error('Album not added');
         }
@@ -56,11 +59,10 @@ const AlbumList = (props) => {
                             value={userId}
                             onChange={(e) => setUserId(e.target.value)}
                         />
-                        {/* <Link to="/"> */}
+
                         <button disabled={addingAlbum} type="submit">
                             {addingAlbum ? 'Adding Album...' : 'Add Album'}
                         </button>
-                        {/* </Link> */}
                     </form>
                 </div>
             </div>
