@@ -110,7 +110,7 @@ function App() {
     };
 
     return (
-        <div>
+        <div className="body">
             <Routes>
                 <Route
                     path="/"
